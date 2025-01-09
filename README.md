@@ -1,16 +1,13 @@
-# vakinha_app
+# vakinha app
 
-A new Flutter project.
+O Vakinha Burger é um aplicativo de entrega, onde o usuário pode escolher um hambúrguer e pedir no restaurante. Este projeto foi feito durante a Dart Week, usando a arquitetura MVC, Bloc como state manager.
+## Principais tecnologias
 
-## Getting Started
+* Flutter
+* Auth and Refresh Token
+* Bloc as a State Manager
+* Shared Preferences
+* Dio
+* Match Package
 
-This project is a starting point for a Flutter application.
 
-A few resources to get you started if this is your first Flutter project:
-
-- [Lab: Write your first Flutter app](https://docs.flutter.dev/get-started/codelab)
-- [Cookbook: Useful Flutter samples](https://docs.flutter.dev/cookbook)
-
-For help getting started with Flutter development, view the
-[online documentation](https://docs.flutter.dev/), which offers tutorials,
-samples, guidance on mobile development, and a full API reference.
