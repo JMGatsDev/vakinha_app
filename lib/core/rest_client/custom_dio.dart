@@ -19,13 +19,13 @@ class CustomDio extends DioForNative {
         requestHeader: true,
       ),
     );
+  }
 
-    CustomDio auth() {
-      return this;
-    }
+  CustomDio auth() {
+    return this;
+  }
 
-    CustomDio unauth() {
-      return this;
-    }
+  CustomDio unauth() {
+    return this;
   }
 }
