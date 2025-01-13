@@ -1,5 +1,5 @@
 import 'package:vakinha_app/models/product_model.dart';
 
-abstract class ProductRepository {
+abstract class ProductsRepository {
   Future<List<ProductModel>> findAllProducts();
 }

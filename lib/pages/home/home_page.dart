@@ -1,40 +1,56 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:vakinha_app/core/ui/helpers/messages.dart';
+import 'package:vakinha_app/pages/home/home_controller.dart';
 import 'package:vakinha_app/pages/home/widgets/delivery_product_tile.dart';
+import 'package:vakinha_app/pages/home/widgets/home_state.dart';
 
+import '../../core/ui/helpers/loader.dart';
 import '../../core/ui/widgets/delivery_appbar.dart';
-import '../../models/product_model.dart';
 
-class HomePage extends StatelessWidget {
+class HomePage extends StatefulWidget {
   const HomePage({super.key});
+
+  @override
+  _HomePageState createState() => _HomePageState();
+}
+
+class _HomePageState extends State<StatefulWidget> with Loader, Messages {
+  @override
+  void initState() {
+    super.initState();
+    WidgetsBinding.instance.addPostFrameCallback((timeStamp) {
+      context.read<HomeController>().loadProducts();
+    });
+  }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: DeliveryAppBar(),
-      body: Column(
-        children: [
-          Expanded(
-            child: Column(
-              children: [
-                ListView.builder(
-                  shrinkWrap: true,
-                  itemCount: 5,
+      body: BlocConsumer<HomeController, HomeState>(
+        listener: (context, state) {
+          if (state.status == HomeStateStatus.error) {
+            showError('Falha ao carregar os produtos');
+          }
+        },
+        builder: (context, state) {
+          return Column(
+            children: [
+              Expanded(
+                child: ListView.builder(
+                  itemCount: state.products.length,
                   itemBuilder: (context, index) {
+                    final products = state.products[index];
                     return DeliveryProductTile(
-                      productModel: ProductModel(
-                        id: index,
-                        name: 'produto',
-                        description: 'descrição',
-                        price: 250.5,
-                        image: 'https://gourmetjr.com.br/wp-content/uploads/2018/03/JPEG-image-B6230B799E47-1_1170x600_acf_cropped_490x292_acf_cropped.jpeg',
-                      ),
+                      productModel: state.products[index],
                     );
                   },
                 ),
-              ],
-            ),
-          ),
-        ],
+              ),
+            ],
+          );
+        },
       ),
     );
   }
