@@ -15,17 +15,29 @@ sealed class AppStyles {
 sealed class MyTextStyles {
   static const String font = 'mplus1';
   static const textLight = TextStyle(
-      fontWeight: FontWeight.w300, fontFamily: font, color: Colors.white);
+    fontWeight: FontWeight.w300,
+    fontFamily: font,
+  );
   static const textRegular = TextStyle(
-      fontWeight: FontWeight.normal, fontFamily: font, color: Colors.white);
+    fontWeight: FontWeight.normal,
+    fontFamily: font,
+  );
   static const textMedium = TextStyle(
-      fontWeight: FontWeight.w500, fontFamily: font, color: Colors.white);
+    fontWeight: FontWeight.w500,
+    fontFamily: font,
+  );
   static const textSemiBold = TextStyle(
-      fontWeight: FontWeight.w600, fontFamily: font, color: Colors.white);
+    fontWeight: FontWeight.w600,
+    fontFamily: font,
+  );
   static const textBold = TextStyle(
-      fontWeight: FontWeight.bold, fontFamily: font, color: Colors.white);
+    fontWeight: FontWeight.bold,
+    fontFamily: font,
+  );
   static const textExtraBold = TextStyle(
-      fontWeight: FontWeight.w800, fontFamily: font, color: Colors.white);
+    fontWeight: FontWeight.w800,
+    fontFamily: font,
+  );
 
   static final textButtonLabel = textBold.copyWith(fontSize: 14);
   static final textTitle = textExtraBold.copyWith(fontSize: 28);
