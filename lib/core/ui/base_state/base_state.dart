@@ -6,7 +6,7 @@ import 'package:vakinha_app/core/ui/helpers/messages.dart';
 import '../helpers/loader.dart';
 
 abstract class BaseState<T extends StatefulWidget, C extends BlocBase>
-    extends State<StatefulWidget> with Loader, Messages {
+    extends State<T> with Loader, Messages {
   late final C controller;
 
   @override
