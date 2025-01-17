@@ -11,7 +11,7 @@ class HomePage extends StatefulWidget {
   const HomePage({super.key});
 
   @override
-  _HomePageState createState() => _HomePageState();
+  State<HomePage> createState() => _HomePageState();
 }
 
 class _HomePageState extends BaseState<HomePage, HomeController> {
@@ -19,9 +19,10 @@ class _HomePageState extends BaseState<HomePage, HomeController> {
   void initState() {
     super.initState();
     WidgetsBinding.instance.addPostFrameCallback((timeStamp) {
-     controller.loadProducts();
+      controller.loadProducts();
     });
   }
+
   @override
   void onReady() {
     controller.loadProducts();
