@@ -56,8 +56,12 @@ class _HomePageState extends BaseState<HomePage, HomeController> {
                 child: ListView.builder(
                   itemCount: state.products.length,
                   itemBuilder: (context, index) {
+                    final product = state.products[index];
+                    final orders = state.shoppingBag
+                        .where((order) => order.productModel == product);
                     return DeliveryProductTile(
                       productModel: state.products[index],
+                      orderProductDto: orders.isNotEmpty ? orders.first : null,
                     );
                   },
                 ),

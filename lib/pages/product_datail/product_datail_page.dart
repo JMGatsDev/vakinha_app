@@ -6,6 +6,7 @@ import 'package:vakinha_app/core/ui/base_state/base_state.dart';
 import 'package:vakinha_app/core/ui/helpers/size_extensions.dart';
 import 'package:vakinha_app/core/ui/styles/constants.dart';
 import 'package:vakinha_app/core/ui/widgets/delivery_increment_decrement_button.dart';
+import 'package:vakinha_app/dto/order_product_dto.dart';
 import 'package:vakinha_app/models/product_model.dart';
 import 'package:vakinha_app/pages/product_datail/product_detail_controller.dart';
 
@@ -13,8 +14,10 @@ import '../../core/ui/widgets/delivery_appbar.dart';
 
 class ProductDatailPage extends StatefulWidget {
   final ProductModel productModel;
+  final OrderProductDto? orderProductDto;
 
-  const ProductDatailPage({super.key, required this.productModel});
+  const ProductDatailPage(
+      {super.key, required this.productModel, this.orderProductDto});
 
   @override
   State<ProductDatailPage> createState() => _ProductDatailPageState();
@@ -22,6 +25,51 @@ class ProductDatailPage extends StatefulWidget {
 
 class _ProductDatailPageState
     extends BaseState<ProductDatailPage, ProductDetailController> {
+  @override
+  void initState() {
+    final amount = widget.orderProductDto?.amount ?? 1;
+    context
+        .read<ProductDetailController>()
+        .initial(amount, widget.orderProductDto != null);
+    super.initState();
+  }
+
+  void _showCorfimDelete(int amount) {
+    showDialog(
+        barrierDismissible: false,
+        context: context,
+        builder: (context) {
+          return AlertDialog(
+            title: const Text('Deseja excluir Produto ?'),
+            actions: [
+              TextButton(
+                onPressed: () {
+                  Navigator.of(context).pop();
+                },
+                child: Text(
+                  'Canceler',
+                  style: MyTextStyles.textBold.copyWith(color: Colors.red),
+                ),
+              ),
+              TextButton(
+                onPressed: () {
+                  Navigator.of(context).pop();
+                  Navigator.of(context).pop(
+                    OrderProductDto(
+                        productModel: widget.productModel,
+                        amount: amount),
+                  );
+                },
+                child: Text(
+                  'Confirmar',
+                  style: MyTextStyles.textBold.copyWith(color: Colors.green),
+                ),
+              )
+            ],
+          );
+        });
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -72,9 +120,9 @@ class _ProductDatailPageState
                 height: 68,
                 width: context.percentWidth(0.5),
                 child: BlocBuilder<ProductDetailController, int>(
-                  builder: (context, amout) {
+                  builder: (context, amount) {
                     return DeliveryIncrementDecrementButton(
-                      amout: amout,
+                      amout: amount,
                       incrementTap: () {
                         controller.increment();
                       },
@@ -90,32 +138,55 @@ class _ProductDatailPageState
                 width: context.percentWidth(0.5),
                 height: 68,
                 child: BlocBuilder<ProductDetailController, int>(
-                  builder: (context, amout) {
+                  builder: (context, amount) {
                     return ElevatedButton(
-                      onPressed: () {},
-                      child: Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                        children: [
-                          Text(
-                            "Adicionar",
-                            style: MyTextStyles.textExtraBold
-                                .copyWith(fontSize: 13, color: Colors.white),
-                          ),
-                          const SizedBox(
-                            width: 10,
-                          ),
-                          Expanded(
-                            child: AutoSizeText(
-                              (widget.productModel.price * amout).currentcyPTBR,
-                              textAlign: TextAlign.center,
-                              maxLines: 1,
-                              minFontSize: 5,
-                              maxFontSize: 13,
+                      style: amount == 0
+                          ? ElevatedButton.styleFrom(
+                              backgroundColor: Colors.red)
+                          : null,
+                      onPressed: () {
+                        if (amount == 0) {
+                          _showCorfimDelete(amount);
+                        } else {
+                          Navigator.of(context).pop(
+                            OrderProductDto(
+                                productModel: widget.productModel,
+                                amount: amount),
+                          );
+                        }
+                      },
+                      child: Visibility(
+                        visible: amount > 0,
+                        replacement: Text(
+                          'Excluir Produto',
+                          style: MyTextStyles.textExtraBold
+                              .copyWith(color: Colors.white),
+                        ),
+                        child: Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          children: [
+                            Text(
+                              "Adicionar",
                               style: MyTextStyles.textExtraBold
                                   .copyWith(fontSize: 13, color: Colors.white),
                             ),
-                          ),
-                        ],
+                            const SizedBox(
+                              width: 10,
+                            ),
+                            Expanded(
+                              child: AutoSizeText(
+                                (widget.productModel.price * amount)
+                                    .currentcyPTBR,
+                                textAlign: TextAlign.center,
+                                maxLines: 1,
+                                minFontSize: 5,
+                                maxFontSize: 13,
+                                style: MyTextStyles.textExtraBold.copyWith(
+                                    fontSize: 13, color: Colors.white),
+                              ),
+                            ),
+                          ],
+                        ),
                       ),
                     );
                   },
