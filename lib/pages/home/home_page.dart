@@ -4,6 +4,7 @@ import 'package:vakinha_app/core/ui/base_state/base_state.dart';
 import 'package:vakinha_app/pages/home/home_controller.dart';
 import 'package:vakinha_app/pages/home/widgets/delivery_product_tile.dart';
 import 'package:vakinha_app/pages/home/home_state.dart';
+import 'package:vakinha_app/pages/home/widgets/shoppin_bag_widget.dart';
 
 import '../../core/ui/widgets/delivery_appbar.dart';
 
@@ -66,6 +67,12 @@ class _HomePageState extends BaseState<HomePage, HomeController> {
                   },
                 ),
               ),
+              Visibility(
+                visible: state.shoppingBag.isNotEmpty,
+                child:  ShoppinBagWidget(
+                  bag: state.shoppingBag,
+                ),
+              )
             ],
           );
         },
